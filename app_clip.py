@@ -39,7 +39,7 @@ def get_image_embeddings(model, preprocess, images):
 
 embeddings = get_image_embeddings(model, preprocess, images)
 
-@app.route('/similar_images_text', methods=['POST'])
+"""@app.route('/similar_images_text', methods=['POST'])
 def similar_images_text():
     data = request.json
     query_text = data['query']
@@ -47,6 +47,7 @@ def similar_images_text():
     
     with torch.no_grad():
         query_embedding = model.encode_text(text_inputs).cpu().numpy()
+        
     
     similarities = cosine_similarity(query_embedding, embeddings).flatten()
     top_k_indices = similarities.argsort()[-6:][::-1]
@@ -54,6 +55,32 @@ def similar_images_text():
     similar_images = [file_names[idx] for idx in top_k_indices]
     
     return jsonify(similar_images)
+
+"""
+
+@app.route('/similar_images_text', methods=['POST'])
+def similar_images_text():
+    data = request.json
+    query_text = data['query']
+    negative_text = data.get('negative_query', '')  # Get the negative prompt if provided
+    
+    text_inputs = clip.tokenize([query_text]).to(device)
+    negative_text_inputs = clip.tokenize([negative_text]).to(device)
+    
+    with torch.no_grad():
+        query_embedding = model.encode_text(text_inputs).cpu().numpy()
+        negative_embedding = model.encode_text(negative_text_inputs).cpu().numpy()
+    
+    similarities = cosine_similarity(query_embedding, embeddings).flatten()
+    negative_similarities = cosine_similarity(negative_embedding, embeddings).flatten()
+    
+    combined_similarities = similarities - negative_similarities  # Adjust the similarities with negative prompt
+    top_k_indices = combined_similarities.argsort()[-6:][::-1]
+    
+    similar_images = [file_names[idx] for idx in top_k_indices]
+    
+    return jsonify(similar_images)
+
 
 @app.route('/similar_images_upload', methods=['POST'])
 def similar_images_upload():
