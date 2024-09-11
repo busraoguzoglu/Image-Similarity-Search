@@ -9,3 +9,13 @@ Demo for image similarity project.
 ## Notes
 - Qdrant is used as vector storage. Run Qdrant locally with Docker image to run the demo.
 - CLIP is used as the model. It can embed both text and image in semantic vector space, therefore we can search the similarities.
+
+## Running the Demo
+
+1- Run Qdrant on terminal: (colima start
+
+docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant)
+
+2- Run backend (app_clip_qdrant.py)
+
+3- Run frontend (frontend_clip.py)
