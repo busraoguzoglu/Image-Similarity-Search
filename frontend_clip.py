@@ -42,7 +42,7 @@ iface_upload = gr.Interface(
     outputs=gr.Gallery(label="Similar Images")
 )
 
-app = gr.TabbedInterface([iface_text, iface_upload], ["Text Search", "Image Upload"])
+app = gr.TabbedInterface([iface_text, iface_upload], ["Text Search", "Image Upload", "SKU Search"])
 
 if __name__ == "__main__":
     app.launch()
