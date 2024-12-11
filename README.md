@@ -8,7 +8,7 @@ Demo for image similarity project.
 
 ## Notes
 - Qdrant is used as vector storage. Run Qdrant locally with Docker image to run the demo.
-- CLIP is used as the model. It can embed both text and image in semantic vector space, therefore we can search the similarities.
+- CLIP, Titan and ALIGN models were used for the embeddings. These models can embed both text and image in semantic vector space, therefore we can search the similarities.
 
 ## Running the Demo
 
